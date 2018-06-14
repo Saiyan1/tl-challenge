@@ -1,0 +1,4 @@
+com/saiyan/dropwizard/DropWizardApplication.class
+com/saiyan/dropwizard/SaiyanConfig.class
+com/saiyan/dropwizard/api/Saying.class
+com/saiyan/dropwizard/resources/HelloWorldResource.class
