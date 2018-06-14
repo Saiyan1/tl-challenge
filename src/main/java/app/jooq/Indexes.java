@@ -4,7 +4,7 @@
 package app.jooq;
 
 
-import app.jooq.tables.Author;
+import app.jooq.tables.Book;
 
 import javax.annotation.Generated;
 
@@ -14,7 +14,7 @@ import org.jooq.impl.Internal;
 
 
 /**
- * A class modelling indexes of tables of the <code>library</code> schema.
+ * A class modelling indexes of tables of the <code>bookshelf</code> schema.
  */
 @Generated(
     value = {
@@ -30,13 +30,13 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index AUTHOR_PRIMARY = Indexes0.AUTHOR_PRIMARY;
+    public static final Index BOOK_PRIMARY = Indexes0.BOOK_PRIMARY;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
-        public static Index AUTHOR_PRIMARY = Internal.createIndex("PRIMARY", Author.AUTHOR, new OrderField[] { Author.AUTHOR.ID }, true);
+        public static Index BOOK_PRIMARY = Internal.createIndex("PRIMARY", Book.BOOK, new OrderField[] { Book.BOOK.ID }, true);
     }
 }

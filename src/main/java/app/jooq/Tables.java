@@ -4,13 +4,13 @@
 package app.jooq;
 
 
-import app.jooq.tables.Author;
+import app.jooq.tables.Book;
 
 import javax.annotation.Generated;
 
 
 /**
- * Convenience access to all tables in library
+ * Convenience access to all tables in bookshelf
  */
 @Generated(
     value = {
@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 public class Tables {
 
     /**
-     * The table <code>library.author</code>.
+     * The table <code>bookshelf.book</code>.
      */
-    public static final Author AUTHOR = app.jooq.tables.Author.AUTHOR;
+    public static final Book BOOK = app.jooq.tables.Book.BOOK;
 }

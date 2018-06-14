@@ -1,6 +1,6 @@
 package com.saiyan.dropwizard.resources;
 
-import app.jooq.tables.records.AuthorRecord;
+import app.jooq.tables.records.BookRecord;
 import com.saiyan.dropwizard.api.Saying;
 import com.codahale.metrics.annotation.Timed;
 import org.jooq.DSLContext;
@@ -19,21 +19,21 @@ import java.sql.DriverManager;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.Optional;
 
-import static app.jooq.Tables.AUTHOR;
+import static app.jooq.Tables.BOOK;
 
-@Path("/hello-world")
+@Path("/findBooks")
 @Produces(MediaType.APPLICATION_JSON)
 public class HelloWorldResource {
     private final String template;
     private final String defaultName;
     private final AtomicLong counter;
-    private String firstName;
+    private String title;
 
     public HelloWorldResource(String template, String defaultName) {
         this.template = template;
         this.defaultName = defaultName;
         this.counter = new AtomicLong();
-        this.firstName = "";
+        this.title = "";
     }
 
     @GET
@@ -48,8 +48,20 @@ public class HelloWorldResource {
             Connection conn = DriverManager.getConnection(url, userName, password);
             try {
                 DSLContext create = DSL.using(conn, SQLDialect.MYSQL);
+
+                Result<BookRecord> result = create.selectFrom(BOOK).where(BOOK.TITLE.like("%is%")).fetch();
+
+                for (Record r : result) {
+
+                    title = r.getValue(BOOK.TITLE);
+
+                }
+
+
+                /*
                 AuthorRecord result = create.selectFrom(AUTHOR).where(AUTHOR.ID.eq(1)).fetchOne();
                 firstName = result.getValue(AUTHOR.FIRST_NAME);
+                */
 
             } finally {
                 conn.close();
@@ -61,7 +73,7 @@ public class HelloWorldResource {
             e.printStackTrace();
         }
 
-        final String value = String.format(template, firstName);
+        final String value = String.format(template, title);
         return new Saying(counter.incrementAndGet(), value);
 
     }
