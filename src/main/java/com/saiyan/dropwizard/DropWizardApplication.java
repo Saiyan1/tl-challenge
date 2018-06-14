@@ -1,7 +1,7 @@
 package com.saiyan.dropwizard;
 
 import io.dropwizard.Application;
-import io.dropwizard.setup.Bootstrap;
+//import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import com.saiyan.dropwizard.resources.HelloWorldResource;
 //import com.example.helloworld.health.TemplateHealthCheck;
