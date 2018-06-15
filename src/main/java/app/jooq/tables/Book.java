@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Book extends TableImpl<BookRecord> {
 
-    private static final long serialVersionUID = 1485668654;
+    private static final long serialVersionUID = 180617884;
 
     /**
      * The reference instance of <code>bookshelf.book</code>
@@ -94,6 +94,16 @@ public class Book extends TableImpl<BookRecord> {
      * The column <code>bookshelf.book.instock</code>.
      */
     public final TableField<BookRecord, Byte> INSTOCK = createField("instock", org.jooq.impl.SQLDataType.TINYINT.nullable(false), this, "");
+
+    /**
+     * The column <code>bookshelf.book.isbn</code>.
+     */
+    public final TableField<BookRecord, String> ISBN = createField("isbn", org.jooq.impl.SQLDataType.VARCHAR(15), this, "");
+
+    /**
+     * The column <code>bookshelf.book.authors</code>.
+     */
+    public final TableField<BookRecord, String> AUTHORS = createField("authors", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
      * Create a <code>bookshelf.book</code> table reference

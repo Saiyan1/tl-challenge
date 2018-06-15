@@ -12,7 +12,6 @@ import org.jooq.impl.DSL;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,9 +23,9 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static app.jooq.Tables.BOOK;
 
-@Path("/book/find")
+@Path("/book")
 @Produces(MediaType.APPLICATION_JSON)
-public class FindBooksResource {
+public class BookResource {
 
     private final AtomicLong counter;
     private String isbn;
@@ -40,7 +39,7 @@ public class FindBooksResource {
     private Byte instock;
 
 
-    public FindBooksResource() {
+    public BookResource() {
         this.counter = new AtomicLong();
         this.isbn = "";
         this.title = "";
@@ -56,7 +55,7 @@ public class FindBooksResource {
 
     @GET
     @Timed
-    public List<Book> findByTitleOrDescription(@QueryParam("query") String search) {
+    public List<Book> getBooks() {
 
         String userName = "phpmyadmin";
         String password = "1536020a";
@@ -73,8 +72,6 @@ public class FindBooksResource {
 
                 result = create
                         .selectFrom(BOOK)
-                        .where(BOOK.TITLE.like("%"+ search +"%"))
-                        .or(BOOK.DESCRIPTION.like("%"+ search +"%"))
                         .fetch();
 
                 for (Record r : result) {
