@@ -9,6 +9,7 @@ import app.jooq.Indexes;
 import app.jooq.Keys;
 import app.jooq.tables.records.BookRecord;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Book extends TableImpl<BookRecord> {
 
-    private static final long serialVersionUID = 245898298;
+    private static final long serialVersionUID = 1485668654;
 
     /**
      * The reference instance of <code>bookshelf.book</code>
@@ -63,6 +64,36 @@ public class Book extends TableImpl<BookRecord> {
      * The column <code>bookshelf.book.title</code>.
      */
     public final TableField<BookRecord, String> TITLE = createField("title", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
+
+    /**
+     * The column <code>bookshelf.book.subtitle</code>.
+     */
+    public final TableField<BookRecord, String> SUBTITLE = createField("subtitle", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
+
+    /**
+     * The column <code>bookshelf.book.published</code>.
+     */
+    public final TableField<BookRecord, Timestamp> PUBLISHED = createField("published", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+
+    /**
+     * The column <code>bookshelf.book.publisher</code>.
+     */
+    public final TableField<BookRecord, String> PUBLISHER = createField("publisher", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
+
+    /**
+     * The column <code>bookshelf.book.pages</code>.
+     */
+    public final TableField<BookRecord, Integer> PAGES = createField("pages", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
+    /**
+     * The column <code>bookshelf.book.description</code>.
+     */
+    public final TableField<BookRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
+
+    /**
+     * The column <code>bookshelf.book.instock</code>.
+     */
+    public final TableField<BookRecord, Byte> INSTOCK = createField("instock", org.jooq.impl.SQLDataType.TINYINT.nullable(false), this, "");
 
     /**
      * Create a <code>bookshelf.book</code> table reference

@@ -1,7 +1,7 @@
 package com.saiyan.dropwizard.resources;
 
 import app.jooq.tables.records.BookRecord;
-import com.saiyan.dropwizard.api.Saying;
+import com.saiyan.dropwizard.api.Book;
 import com.codahale.metrics.annotation.Timed;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -16,65 +16,72 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.Optional;
+
 
 import static app.jooq.Tables.BOOK;
 
 @Path("/findBooks")
 @Produces(MediaType.APPLICATION_JSON)
-public class HelloWorldResource {
+public class FindBooksResource {
+
     private final String template;
     private final String defaultName;
     private final AtomicLong counter;
     private String title;
+    private String description;
 
-    public HelloWorldResource(String template, String defaultName) {
+
+    public FindBooksResource(String template, String defaultName) {
         this.template = template;
         this.defaultName = defaultName;
         this.counter = new AtomicLong();
         this.title = "";
+        this.description = "";
     }
+
 
     @GET
     @Timed
-    public Saying sayHello(@QueryParam("name") Optional<String> name) {
+    public List<Book> sayHello(@QueryParam("name") String search) {
 
         String userName = "phpmyadmin";
         String password = "1536020a";
         String url = "jdbc:mysql://localhost:3306/library";
 
+        Result<BookRecord> result = null;
+        List<Book> list = new ArrayList<>();
+
         try {
             Connection conn = DriverManager.getConnection(url, userName, password);
+
             try {
                 DSLContext create = DSL.using(conn, SQLDialect.MYSQL);
 
-                Result<BookRecord> result = create.selectFrom(BOOK).where(BOOK.TITLE.like("%is%")).fetch();
+                result = create
+                        .selectFrom(BOOK)
+                        .where(BOOK.TITLE.like("%"+ search +"%"))
+                        .or(BOOK.DESCRIPTION.like("%"+ search +"%"))
+                        .fetch();
+
 
                 for (Record r : result) {
-
                     title = r.getValue(BOOK.TITLE);
-
+                    description = r.getValue(BOOK.DESCRIPTION);
+                    Book book = new Book(counter.incrementAndGet(), title, description);
+                    list.add(book);
                 }
-
-
-                /*
-                AuthorRecord result = create.selectFrom(AUTHOR).where(AUTHOR.ID.eq(1)).fetchOne();
-                firstName = result.getValue(AUTHOR.FIRST_NAME);
-                */
 
             } finally {
                 conn.close();
             }
-        }
 
-        // For the sake of this tutorial, let's keep exception handling simple
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        final String value = String.format(template, title);
-        return new Saying(counter.incrementAndGet(), value);
-
+        return list;
     }
 }

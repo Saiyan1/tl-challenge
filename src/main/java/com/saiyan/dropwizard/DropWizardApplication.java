@@ -1,10 +1,8 @@
 package com.saiyan.dropwizard;
 
 import io.dropwizard.Application;
-//import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import com.saiyan.dropwizard.resources.HelloWorldResource;
-//import com.example.helloworld.health.TemplateHealthCheck;
+import com.saiyan.dropwizard.resources.FindBooksResource;
 
 public class DropWizardApplication extends Application<SaiyanConfig> {
 
@@ -16,7 +14,7 @@ public class DropWizardApplication extends Application<SaiyanConfig> {
     public void run(SaiyanConfig configuration,
                     Environment environment) {
 
-        final HelloWorldResource resource = new HelloWorldResource(
+        final FindBooksResource resource = new FindBooksResource(
                 configuration.getTemplate(),
                 configuration.getDefaultName()
         );
